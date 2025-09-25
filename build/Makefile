@@ -369,6 +369,78 @@ src/TcpServer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TcpServer.cpp.s
 .PHONY : src/TcpServer.cpp.s
 
+src/TimeStamp.o: src/TimeStamp.cpp.o
+.PHONY : src/TimeStamp.o
+
+# target to build an object file
+src/TimeStamp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TimeStamp.cpp.o
+.PHONY : src/TimeStamp.cpp.o
+
+src/TimeStamp.i: src/TimeStamp.cpp.i
+.PHONY : src/TimeStamp.i
+
+# target to preprocess a source file
+src/TimeStamp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TimeStamp.cpp.i
+.PHONY : src/TimeStamp.cpp.i
+
+src/TimeStamp.s: src/TimeStamp.cpp.s
+.PHONY : src/TimeStamp.s
+
+# target to generate assembly for a file
+src/TimeStamp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TimeStamp.cpp.s
+.PHONY : src/TimeStamp.cpp.s
+
+src/Timer.o: src/Timer.cpp.o
+.PHONY : src/Timer.o
+
+# target to build an object file
+src/Timer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/Timer.cpp.o
+.PHONY : src/Timer.cpp.o
+
+src/Timer.i: src/Timer.cpp.i
+.PHONY : src/Timer.i
+
+# target to preprocess a source file
+src/Timer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/Timer.cpp.i
+.PHONY : src/Timer.cpp.i
+
+src/Timer.s: src/Timer.cpp.s
+.PHONY : src/Timer.s
+
+# target to generate assembly for a file
+src/Timer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/Timer.cpp.s
+.PHONY : src/Timer.cpp.s
+
+src/TimerQueue.o: src/TimerQueue.cpp.o
+.PHONY : src/TimerQueue.o
+
+# target to build an object file
+src/TimerQueue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TimerQueue.cpp.o
+.PHONY : src/TimerQueue.cpp.o
+
+src/TimerQueue.i: src/TimerQueue.cpp.i
+.PHONY : src/TimerQueue.i
+
+# target to preprocess a source file
+src/TimerQueue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TimerQueue.cpp.i
+.PHONY : src/TimerQueue.cpp.i
+
+src/TimerQueue.s: src/TimerQueue.cpp.s
+.PHONY : src/TimerQueue.s
+
+# target to generate assembly for a file
+src/TimerQueue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/muduo_server.dir/build.make CMakeFiles/muduo_server.dir/src/TimerQueue.cpp.s
+.PHONY : src/TimerQueue.cpp.s
+
 test.o: test.cpp.o
 .PHONY : test.o
 
@@ -432,6 +504,15 @@ help:
 	@echo "... src/TcpServer.o"
 	@echo "... src/TcpServer.i"
 	@echo "... src/TcpServer.s"
+	@echo "... src/TimeStamp.o"
+	@echo "... src/TimeStamp.i"
+	@echo "... src/TimeStamp.s"
+	@echo "... src/Timer.o"
+	@echo "... src/Timer.i"
+	@echo "... src/Timer.s"
+	@echo "... src/TimerQueue.o"
+	@echo "... src/TimerQueue.i"
+	@echo "... src/TimerQueue.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

@@ -7,7 +7,7 @@ EventLoop::EventLoop()
           ,wakeup_channel_(new Channel(wakeup_fd_,this))
           ,pid_(std::this_thread::get_id())
           ,poller_(new Poller(this))
-          
+          ,timer_queue_(new TimerQueue(this))      
 {
     if(loop_in_this_thread)
     {
@@ -85,4 +85,23 @@ void EventLoop::UpdatePoller(Channel* channel)
 void EventLoop::RemoveChannel(Channel* channel)
 {
     poller_->Remove(channel);
+}
+
+void EventLoop::RunAt(TimerCallback cb,TimeStamp time)
+{
+    timer_queue_->AddTimer(cb,time,0);
+}
+
+void EventLoop::RunAfter(TimerCallback cb,double delay)
+{
+    TimeStamp when(TimeStamp::Now());
+    when+=static_cast<uint64_t>(delay*1000000);
+    timer_queue_->AddTimer(cb,when,0);
+}
+
+void EventLoop::RunEvery(TimerCallback cb,double interval)
+{
+    TimeStamp when(TimeStamp::Now());
+    when+=static_cast<uint64_t>(interval*1000000);
+    timer_queue_->AddTimer(cb,when,interval);
 }

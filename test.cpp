@@ -4,13 +4,13 @@
 #include "TcpConnection.hpp"
 #include "Logger.hpp"
 #include <iostream>
-
 void MessageFunc(const std::shared_ptr<TcpConnection>& conn, Buffer *buffer)
 {
     auto str = buffer->RetriveAllAsString();
     //std::cout << "server    has    received : " << str << std::endl;
     LOG_INFO("server    has    received : %s\n",str.data());
     conn->Send(str.data(),str.size());
+    
     //conn->ShutDown();
 }
 

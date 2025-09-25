@@ -3,6 +3,7 @@
 #include "Poller.hpp"
 #include "Noncopyable.hpp"
 #include "Channel.hpp"
+#include "TimerQueue.hpp"
 #include <functional>
 #include <atomic>
 #include <memory>
@@ -22,7 +23,9 @@ public:
     void UpdatePoller(Channel*);
     void RemoveChannel(Channel*);
     bool IsInLoopThread() const;
-    
+    void RunAt(TimerCallback cb,TimeStamp time);
+    void RunAfter(TimerCallback cb,double delay);
+    void RunEvery(TimerCallback cb,double interval);
 private:
     using ChannelList=std::vector<Channel*>;
 
@@ -33,8 +36,8 @@ private:
     const std::thread::id pid_;
     int wakeup_fd_;
     std::unique_ptr<Channel> wakeup_channel_;
+    std::unique_ptr<TimerQueue> timer_queue_;
 
-    
     void DoPendingFuncs();
     void QueueInLoop(PendingFunc);
     int CreateEventFd();

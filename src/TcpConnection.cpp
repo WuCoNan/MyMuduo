@@ -19,6 +19,8 @@ void TcpConnection::ConnectionEstablished()
     channel_->EnableRead();
     state_=CONNECTED;
 
+    loop_->RunEvery([](){LOG_INFO("Timer    triggerd\n");},3);
+
     LOG_INFO("server   gets   a    new    connnection   with   Fd   %d\n",channel_->GetFd());
 }
 

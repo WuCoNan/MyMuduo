@@ -24,7 +24,10 @@ add_executable(muduo_server
     src/TcpConnection.cpp
     src/TcpServer.cpp
     src/Logger.cpp
-)
+    src/Timer.cpp
+    src/TimerQueue.cpp
+    src/TimeStamp.cpp
+    )
 
 # 链接 pthread 库
 target_link_libraries(muduo_server pthread)
