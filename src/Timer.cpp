@@ -4,6 +4,7 @@ Timer::Timer(TimerCallback cb,TimeStamp when,double interval)
             :cb_(cb)
             ,expiration_(when)
             ,interval_(interval)
+            ,sequence_(Sequence_++)
 {
 }
 

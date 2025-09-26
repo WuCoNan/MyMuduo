@@ -19,7 +19,7 @@ void TcpConnection::ConnectionEstablished()
     channel_->EnableRead();
     state_=CONNECTED;
 
-    loop_->RunEvery([](){LOG_INFO("Timer    triggerd\n");},3);
+    //loop_->RunAfter([this](){ShutDown();},10);
 
     LOG_INFO("server   gets   a    new    connnection   with   Fd   %d\n",channel_->GetFd());
 }
@@ -78,6 +78,8 @@ void TcpConnection::HandleWrite()
 
 void TcpConnection::Send(const char* data,size_t len)
 {
+    if(state_!=CONNECTED)
+        return;
     if(loop_->IsInLoopThread())
         SendInLoop(data,len);
     else

@@ -9,19 +9,24 @@ class TimerQueue
 {
 public:
     TimerQueue(EventLoop* loop);
-    void AddTimer(TimerCallback cb,TimeStamp when,double interval);
+    TimerId AddTimer(TimerCallback cb,TimeStamp when,double interval);
+    void CancelTimer(TimerId timer_id);
 private:
     using Entry=std::pair<TimeStamp,Timer*>;
     using TimerList=std::set<Entry>;
+    using CancelTimerIdSet=std::unordered_set<TimerId>;
 
     int CreateTimerFd();
     void HandleRead();
     std::vector<Entry> GetExpired(TimeStamp now);
-    void Reset(const std::vector<Entry>& expired);
+    void Reset(const std::vector<Entry>& expired,TimeStamp now);
     void Insert(Timer* timer);
-    void AddTimerInLoop(TimerCallback cb,TimeStamp when,double interval);
+    void AddTimerInLoop(Timer* timer);
+    void SetTimerFd(Timer* timer,TimeStamp now);
+    void CancelTimerInLoop(TimerId timer_id);
     
     EventLoop* loop_;
     TimerList timers_;
     std::unique_ptr<Channel> channel_;
+    CancelTimerIdSet cancel_timers_;
 };

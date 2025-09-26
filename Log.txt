@@ -1,8 +1,1 @@
-[INFO]2025-09-25 15:38:34 : server   gets   a    new    connnection   with   Fd   16
-[INFO]2025-09-25 15:38:37 : Timer    triggerd
-[INFO]2025-09-25 15:38:40 : Timer    triggerd
-[INFO]2025-09-25 15:38:43 : Timer    triggerd
-[INFO]2025-09-25 15:38:46 : Timer    triggerd
-[INFO]2025-09-25 15:38:49 : Timer    triggerd
-[INFO]2025-09-25 15:38:52 : Timer    triggerd
-[INFO]2025-09-25 15:38:55 : Timer    triggerd
+[INFO]2025-09-26 15:14:45 : server   gets   a    new    connnection   with   Fd   16

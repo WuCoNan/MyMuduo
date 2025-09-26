@@ -25,10 +25,11 @@ void TimerQueue::HandleRead()
 
     for(auto& entry:expired)
     {
-        entry.second->Run();
+        if(cancel_timers_.find(entry.second->Sequence())==cancel_timers_.end())
+            entry.second->Run();
     }
 
-    Reset(expired);
+    Reset(expired,now);
 }
 
 std::vector<TimerQueue::Entry> TimerQueue::GetExpired(TimeStamp now)
@@ -42,15 +43,26 @@ std::vector<TimerQueue::Entry> TimerQueue::GetExpired(TimeStamp now)
     return expired;
 }
 
-void TimerQueue::Reset(const std::vector<Entry>& expired)
+void TimerQueue::Reset(const std::vector<Entry>& expired,TimeStamp now)
 {
+    if(!timers_.empty())
+    {
+        SetTimerFd(timers_.begin()->second,now);
+    }
+
     for(auto& entry:expired)
     {
-        if(entry.second->Repeat())
+        if(entry.second->Repeat()&&cancel_timers_.find(entry.second->Sequence())==cancel_timers_.end())
             Insert(entry.second);
-        else
+        else 
+        {
+            if(cancel_timers_.find(entry.second->Sequence())!=cancel_timers_.end())
+                cancel_timers_.erase(entry.second->Sequence());
+
             delete entry.second;
+        } 
     }
+
 }
 
 void TimerQueue::Insert(Timer* timer)
@@ -65,27 +77,42 @@ void TimerQueue::Insert(Timer* timer)
                 return;
         }
              
-        itimerspec itm;
-        itm.it_value.tv_sec=(timer->Expiration().MicroSecondsSinceEpoch()-now.MicroSecondsSinceEpoch())/1000000;
-        itm.it_value.tv_nsec=(timer->Expiration().MicroSecondsSinceEpoch()-now.MicroSecondsSinceEpoch())%1000000*1000;
-        itm.it_interval.tv_sec=static_cast<uint64_t>(timer->Interval());
-        itm.it_interval.tv_nsec=static_cast<uint64_t>(timer->Interval()*1000000000)%1000000000;
-
-        ::timerfd_settime(channel_->GetFd(),0,&itm,0);
+        SetTimerFd(timer,now);
     }
 
     Entry entry{timer->Expiration(),timer};
     timers_.emplace(entry);
 }
 
-void TimerQueue::AddTimer(TimerCallback cb,TimeStamp when,double interval)
-{
-    loop_->RunInLoop(std::bind(&TimerQueue::AddTimerInLoop,this,cb,when,interval));
-}
-
-void TimerQueue::AddTimerInLoop(TimerCallback cb,TimeStamp when,double interval)
+TimerId TimerQueue::AddTimer(TimerCallback cb,TimeStamp when,double interval)
 {
     Timer *timer=new Timer(cb,when,interval);
+    loop_->RunInLoop(std::bind(&TimerQueue::AddTimerInLoop,this,timer));
+    return timer->Sequence();
+}
+
+void TimerQueue::AddTimerInLoop(Timer* timer)
+{
     Insert(timer);
 }
 
+void TimerQueue::SetTimerFd(Timer* timer,TimeStamp now)
+{
+    itimerspec itm;
+    itm.it_value.tv_sec=(timer->Expiration().MicroSecondsSinceEpoch()-now.MicroSecondsSinceEpoch())/1000000;
+    itm.it_value.tv_nsec=(timer->Expiration().MicroSecondsSinceEpoch()-now.MicroSecondsSinceEpoch())%1000000*1000;
+    itm.it_interval.tv_sec=static_cast<uint64_t>(timer->Interval());
+    itm.it_interval.tv_nsec=static_cast<uint64_t>(timer->Interval()*1000000000)%1000000000;
+
+    ::timerfd_settime(channel_->GetFd(),0,&itm,0);
+}
+
+void TimerQueue::CancelTimer(TimerId timer_id)
+{
+    loop_->RunInLoop(std::bind(&TimerQueue::CancelTimerInLoop,this,timer_id));
+}
+
+void TimerQueue::CancelTimerInLoop(TimerId timer_id)
+{
+    cancel_timers_.emplace(timer_id);
+}
