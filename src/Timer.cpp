@@ -1,5 +1,7 @@
 #include "Timer.hpp"
 
+std::atomic<TimerId> Timer::Sequence_=0;
+
 Timer::Timer(TimerCallback cb,TimeStamp when,double interval)
             :cb_(cb)
             ,expiration_(when)
