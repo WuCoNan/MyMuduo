@@ -67,7 +67,7 @@ void Buffer::EnsureWritableBytes(size_t len)
 std::string Buffer::RetriveAsString(size_t len)
 {
     std::string ret(BeginRead(), BeginRead() + std::min(len, ReadableBytes()));
-    Retrive(len);
+    Retrieve(len);
     return ret;
 }
 std::string Buffer::RetriveAllAsString()

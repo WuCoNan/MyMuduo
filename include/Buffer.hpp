@@ -19,6 +19,7 @@ public:
     ssize_t WriteFd(int fd,int *save_errno);
     std::string RetriveAsString(size_t len);
     std::string RetriveAllAsString();
+    void Retrieve(size_t len) { reader_index_ += std::min(ReadableBytes(), len); }
 
     char *BeginRead() { return Begin()+reader_index_; }
     const char *BeginRead() const { return Begin()+reader_index_; }
@@ -33,6 +34,6 @@ private:
     size_t writer_index_;
 
     void MakeSpace(size_t len);
-    void Retrive(size_t len) { reader_index_ += std::min(ReadableBytes(), len); }
+    
     void RetriveAll() { reader_index_ += ReadableBytes(); }
 };
