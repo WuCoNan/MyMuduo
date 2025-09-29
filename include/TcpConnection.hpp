@@ -17,6 +17,7 @@ public:
     void ConnectionDestroyed();
     void SetMessageCallback(MessageCallback);
     void SetCloseCallback(CloseCallback);
+    void SetOnConnectionCallback(OnConnectionCallback);
     void Send(const char* data,size_t len);
     void SendInLoop(const char* data,size_t len);
     void ShutDown();
@@ -34,6 +35,7 @@ private:
     EventLoop *loop_;
     MessageCallback message_cb_;
     CloseCallback close_cb_;
+    OnConnectionCallback on_conn_cb_;
     Buffer read_buffer_;
     Buffer write_buffer_;
     std::atomic<int> state_;

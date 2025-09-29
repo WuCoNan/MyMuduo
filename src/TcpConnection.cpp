@@ -20,8 +20,9 @@ void TcpConnection::ConnectionEstablished()
     state_=CONNECTED;
 
     //loop_->RunAfter([this](){ShutDown();},10);
-
-    LOG_INFO("server   gets   a    new    connnection   with   Fd   %d\n",channel_->GetFd());
+    if(on_conn_cb_)
+        on_conn_cb_(shared_from_this());
+    LOG_INFO("Gets   a    new    connnection   of   Fd   %d\n",channel_->GetFd());
 }
 
 void TcpConnection::ConnectionDestroyed()
@@ -135,4 +136,9 @@ void TcpConnection::SetMessageCallback(MessageCallback cb)
 void TcpConnection::SetCloseCallback(CloseCallback cb)
 {
     close_cb_=cb;
+}
+
+void TcpConnection::SetOnConnectionCallback(OnConnectionCallback cb)
+{
+    on_conn_cb_=cb;
 }
